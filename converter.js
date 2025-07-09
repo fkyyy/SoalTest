@@ -61,16 +61,16 @@ function alternatingSum(numbers) {
 //nomor 3
 function numberToLetters(total) {
   const kamus = {
-    0: 'A',
-    1: 'B',
-    2: 'E',
-    3: 'F',
-    4: 'I',
-    5: 'J',
-    6: 'O',
-    7: 'P',
-    8: 'U',
-    9: 'V'
+    0: "A",
+    1: "B",
+    2: "E",
+    3: "F",
+    4: "I",
+    5: "J",
+    6: "O",
+    7: "P",
+    8: "U",
+    9: "V",
   };
 
   function numberToPlus(absTotal) {
@@ -89,7 +89,7 @@ function numberToLetters(total) {
       toggle = toggle === 0 ? 1 : 0;
     }
 
-    return numbers.map(n => kamus[n]);
+    return numbers.map((n) => kamus[n]);
   }
 
   function numberToMinus(absTotal) {
@@ -108,7 +108,7 @@ function numberToLetters(total) {
       toggle = toggle === 0 ? 1 : 0;
     }
 
-    return numbers.map(n => kamus[n]);
+    return numbers.map((n) => kamus[n]);
   }
 
   const absTotal = Math.abs(total);
@@ -135,54 +135,41 @@ function transformNumbers(numbers) {
 
 //nomor 5
 function transformFinalStep(numbers) {
-  return numbers.map((num, idx) => {
-    if (idx === 2 || idx === 3 || idx === 4) {
-      if (idx === 2) return 3;
-      if (idx === 3) return 3;
-      if (idx === 4) return 5;
-    }
-    if (numbers.length === 9 && idx === 8) {
-      return 3;
-    }
-    if (numbers.length === 8) {
-      if (idx === 5) return 5;
-      if (idx === 7) return 3;
-    }
-    return 1;
-  });
+  return numbers.map((n) => (n % 2 === 0 ? Math.min(n + 1, 9) : n));
 }
-
 
 function lettersToNumbers(letters) {
   const kamusReverse = {
-    'A': 0,
-    'B': 1,
-    'E': 2,
-    'F': 3,
-    'I': 4,
-    'J': 5,
-    'O': 6,
-    'P': 7,
-    'U': 8,
-    'V': 9
+    A: 0,
+    B: 1,
+    E: 2,
+    F: 3,
+    I: 4,
+    J: 5,
+    O: 6,
+    P: 7,
+    U: 8,
+    V: 9,
   };
-  return letters.map(letter => kamusReverse[letter] ?? null).filter(n => n !== null);
+  return letters
+    .map((letter) => kamusReverse[letter] ?? null)
+    .filter((n) => n !== null);
 }
 
 function mapNumbersToLetters(numbers) {
   const kamus = {
-    0: 'A',
-    1: 'B',
-    2: 'E',
-    3: 'F',
-    4: 'I',
-    5: 'J',
-    6: 'O',
-    7: 'P',
-    8: 'U',
-    9: 'V'
+    0: "A",
+    1: "B",
+    2: "E",
+    3: "F",
+    4: "I",
+    5: "J",
+    6: "O",
+    7: "P",
+    8: "U",
+    9: "V",
   };
-  return numbers.map(n => kamus[n] ?? '?');
+  return numbers.map((n) => kamus[n] ?? "?");
 }
 
 const r = readline.createInterface({
@@ -191,22 +178,29 @@ const r = readline.createInterface({
 });
 
 r.question("Masukkan kalimat: ", (input) => {
+
+  //nomor 1
   const angkaDariHuruf = convertInputToNumbers(input);
+
+  //nomor 2
   const HasilTambahKurang = alternatingSum(angkaDariHuruf);
+
+  //nomor 3
   const letters = numberToLetters(HasilTambahKurang);
 
+  //nomor 4
   const angkaDariHuruf3 = lettersToNumbers(letters);
   const angkaTransformed = transformNumbers(angkaDariHuruf3);
   const finalLetters = mapNumbersToLetters(angkaTransformed);
-  const angkaFinal = transformFinalStep(angkaTransformed);
 
+  //nomor 5
+  const angkaFinal = transformFinalStep(angkaTransformed);
 
   console.log("1. Hasil konversi Kata :", angkaDariHuruf.join(" "));
   console.log("2. Hasil operasi Pertambahan dan Pengurangan Adalah :", HasilTambahKurang);
   console.log("3. Hasil konversi ke huruf :", letters.join(" "));
-  console.log("4. Output huruf akhir :", finalLetters ? finalLetters.join(" ") : "Tidak ada output huruf akhir");
+  console.log("4. Output huruf akhir :",finalLetters ? finalLetters.join(" ") : "Tidak ada output huruf akhir");
   console.log("5. Final Output Angka:", angkaFinal.join(" "));
-
 
   r.close();
 });
